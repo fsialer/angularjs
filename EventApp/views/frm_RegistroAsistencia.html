@@ -1,0 +1,330 @@
+<div class="col-md-12 resetCol">
+  <div class="viewPnl">
+    <div class="textCabeceraPNL">
+       <strong>REGISTRO DE ASISTENCIA</strong>
+    </div>
+    <div class="lineaC"></div> 
+
+    <div ng-show="pnlTablaEvento">
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="input-group">
+                    <div class="input-group-btn">
+                        <select class="form-control" ng-model="buscarPor"  style="width: 120px;">                       
+                           <option value="">Buscar por:</option>
+                           <option value="Nombre">Evento</option>
+                           <option value="Fecha">Fecha</option>
+                           <option value="Lugar">Lugar</option>
+                           <option value="Estado">Estado</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" aria-label="...">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                   <ul class="MenuOpciones">
+                      <li><a href="" title="Retroceder el listado de eventos"><i class="fa fa-arrow-left"></i></a></li>
+                      <li><a href="" title="Registra un Nuevo evento" data-toggle="modal" data-target="#myModalEvento"><i class="fa fa-plus"></i></a></li>
+                      <li><a href="" title="Refrescar el listado de eventos"><i class="fa fa-refresh"></i></a></li>
+                      <li ng-click="visible=!visible" ><a href="" title="Muesta las Opciones de Editar y Eliminar"><i class="fa fa-bars"></i></a></li>
+                      <li><a href="" title="Siguiente listado de eventos"><i class="fa fa-arrow-right"></i></a></li>
+                    </ul>
+                </div>          
+            </div>
+        </div>
+
+        <br>
+        <div class="styleTabla" >
+           <div class="table-responsive no-padding">
+              <table class="table table-bordered table-hover">                               
+                 <thead> 
+                    <tr>     
+                      <th class="texttable" ng-show="false">#</th>                         
+                      <th class="texttable">Fecha del Evento</th>
+                      <th class="texttable">Evento</th>
+                      <th class="texttable">Hora del Evento</th>     
+                      <th class="texttable">Lugar</th>                             
+                      <th class="texttable">Asistentes</th>
+                      <th class="texttable difuminar" ng-if="visible">Modifciar</th>
+                      <th class="texttable difuminar" ng-if="visible">Eliminar</th> 
+                    </tr>                                                                
+                 </thead>                              
+                                   
+                  <tbody>                         
+                     <tr >
+                        <td class="textCell" ng-show="false">1 {{modulo.tbMod_ID}}</td>
+                        <td class="textCell">Conecta Lambayeque {{modulo.tbMod_Nombre}}</td>                                    
+                        <td class="textCell">04/12/15 {{modulo.tbMod_TipoModulo}}</td> 
+                        <td class="textCell">08:30 am {{modulo.tbMod_TipoModulo}}</td> 
+                        <td class="textCell">Auditorio Hospital Regional {{modulo.tbMod_TipoModulo}}</td>
+
+                        <td class="textCellotro">
+                           <button class="btn btn-success" ng-click="llamarTablaRegistroAsistente(true);"><i class="fa fa-pencil-square-o"></i></button>
+                        </td>  
+                  
+                        <td class="textCellotro difuminar" ng-if="visible">
+                             <button class="btn btn-info" ng-click="mostrarFrmEditar(true);"><i class="fa fa-pencil-square-o"></i></button>
+                        </td>  
+
+                        <td class="textCellotro difuminar" ng-if="visible">
+                             <button class="btn btn-danger" data-toggle="modal" data-target="#myModalEliminar"  ng-click=""><i class="fa fa-pencil-square-o"></i></button>
+                        </td>
+                     </tr>                               
+                  </tbody>
+              </table>
+           </div>       
+        </div>  
+        
+        <div class="col-md-12" style="padding-bottom: 19px;">
+          <div class="col-md-6">
+               <i class="fa fa-hand-o-right"></i> Se encontraron: <strong>{{contadorEventos}}</strong> Eventos              
+          </div>
+          <div class="col-md-6 text_Der">
+              Pagina {{currentPage+1}}/{{numberOfPages()}}
+          </div>          
+        </div>
+        <br>      
+    </div>
+
+    <div ng-show="pnlTablaRegistroAsistencias">
+
+       <div>
+         <br>
+         <div class="row">
+           <div class="col-md-12 textCenter">
+             <strong>{{tituloRegistroAsistencia}}</strong>
+           </div>
+         </div>
+         <br>
+         <div class="row">
+           <div class="col-md-12">
+             <div class="col-md-6">
+                <div class="input-group">
+                  <div class="input-group-btn">
+                    <select class="form-control" ng-model="buscarPor"  style="width: 120px;">                       
+                      <option value="">Buscar por:</option>
+                      <option value="Nombre">Nombre</option>
+                      <option value="Fecha">DNI</option>                                        
+                    </select>
+                  </div>
+                  <input type="text" class="form-control" aria-label="...">
+                </div>
+             </div>
+             <div class="col-md-6">
+                <ul class="MenuOpciones">
+                    <li><a href="" title="Clic para buscar un Asistente registrado previamente" ng-click="buscarAsistente(true);"><i class="fa fa-arrow-left"></i> </a></li>              
+                    <li><a href="" title="Clic para regresar a la vista anterior" ng-click="llamarTablaRegistroAsistente(false)"><i class="fa fa-arrow-left"></i> </a></li>
+                    <li><a href="" title="Clic para registrar un asistente nuevo" ng-click="LlamarRegistroNuevoAsistente(true);"><i class="fa fa-plus"></i></a></li>
+                    <li><a href="" title="Clic para ver el listado de Asistentes" ng-click="LlamarlistadoAsistente(true);"><i class="fa fa-refresh"></i></a></li>             
+                </ul>            
+             </div>           
+           </div>         
+         </div> 
+         <br>
+                
+       </div>
+
+       <br>
+       <div ng-show="pnlResultadoBusquedaAsistente">
+         <div class="row">
+           <div class="col-md-12 textCenterSUB">
+             <strong>{{tituloResultadoBusqueda}}</strong>
+           </div>
+         </div>
+         <br>
+         <div class="row">
+           <div class="col-md-12">
+             ffff
+           </div>
+         </div>           
+       </div> 
+
+       <div ng-show="pnlFormularioRegistroAsistente">
+         <div class="row">
+           <div class="col-md-12 textCenterSUB">
+             <strong>{{tituloRegistroAsis}}</strong>
+           </div>
+         </div>            
+         <br>
+         <div class="row">
+           <div class="col-md-12">
+              <form action="" role="form" name="forma">             
+                <div class="col-md-6">
+                   <div class="form-group" ng-class="{'has-error': forma.nomParticipanteU.$invalid, 'has-success': forma.nomParticipanteU.$valid}">
+                      <label>Nombre y Apellidos</label>
+                      <input type="text" class="form-control" name="nomParticipanteU" ng-model="nomParticipante" placeholder="Ingrese el nombre y apellido del participante..." required>
+                   </div>                
+                   <div class="form-group" ng-class="{'has-error': forma.cargoPartiU.$invalid, 'has-success': forma.cargoPartiU.$valid}">
+                      <label>Cargo</label>
+                      <input type="text" class="form-control" name="cargoPartiU" ng-model="cargoParti" placeholder="Ingrese el cargo que desempeña el participante..." required>
+                   </div>
+                   <div class="form-group" ng-class="{'has-error': forma.correoPartiU.$invalid, 'has-success': forma.correoPartiU.$valid}">
+                      <label>Correo Electronico</label>
+                      <input type="text" class="form-control" name="correoPartiU" ng-model="correoParti" placeholder="Ingrese el correo electronico del participante..." required>
+                   </div>                  
+                </div>
+                <div class="col-md-6">
+                   <div class="form-group" ng-class="{'has-error': forma.instiPartiU.$invalid, 'has-success': forma.instiPartiU.$valid}">
+                      <label>Institución que Representa</label>
+                      <input type="text" class="form-control" name="instiPartiU" ng-model="instiParti" placeholder="Ingrese la institución que representa el participante..." required>
+                   </div>
+                   <div class="form-group" ng-class="{'has-error': forma.telefono1PartiU.$invalid, 'has-success': forma.telefono1PartiU.$valid}">
+                      <label>Teléfono 1 </label>
+                      <input type="number" class="form-control" name="telefono1PartiU" ng-model="telefono1Parti" placeholder="Ingrese el número telefónico del participante..." required>
+                   </div> 
+                   <div class="form-group" ng-class="{'has-error': forma.telefono2PartiU.$invalid, 'has-success': forma.telefono2PartiU.$valid}">
+                      <label>Teléfono 2 </label>
+                      <input type="number" class="form-control" name="telefono2PartiU" ng-model="telefono2Parti" placeholder="Ingrese el número telefónico del participante..." required>
+                   </div>                                                         
+                </div>
+                <div class="col-md-12">
+                   <div class="form-group" ng-class="{'has-error': forma.descripcionU.$invalid, 'has-success': forma.descripcionU.$valid}">
+                      <label>Comentario del Participante</label>
+                      <textarea class="form-control" maxlength="800" cols="30" rows="5" name="descripcionU" ng-model="descripcionParti" placeholder="Ingrese alguna descripción para este participante..." required></textarea>
+                   </div>                  
+                </div>                                  
+              </form>
+              <br>
+              <div class="btnAccion ">                        
+                  <button class="btn btn-primary opBtn" title="Regresar el asistente" ng-click=""><i class="fa fa-arrow-left"></i> Registrar</button>                          
+              </div>              
+           </div>
+         </div>
+       </div>                
+
+       <div ng-show="pnlListadoAsistente">
+           <div class="row">
+             <div class="col-md-12 textCenterSUB">
+               <strong>{{tituloListadoAsistentes}}</strong>
+             </div>
+           </div>
+
+           <br>        
+           <div class="row">
+              <div class="col-md-12">
+                  <div class="col-md-12">
+                      <div class="input-group">
+                      <div class="input-group-btn">
+                          <select class="form-control" ng-model="buscarPor"  style="width: 120px;">                       
+                             <option value="">Buscar por:</option>
+                             <option value="Nombre">Nombre</option>
+                             <option value="DNI">DNI</option>                           
+                          </select>
+                      </div>
+                      <input type="text" class="form-control" aria-label="...">
+                      </div>
+                  </div>          
+              </div>
+           </div>
+
+           <br>
+           <div class="styleTabla" >
+             <div class="table-responsive no-padding">
+                <table class="table table-bordered table-hover">                               
+                   <thead> 
+                      <tr>     
+                        <th class="texttable" ng-show="false">#</th>                                                                   
+                        <th class="texttable">Participante</th>
+                        <th class="texttable">Cargo</th>
+                        <th class="texttable">Correo</th>     
+                        <th class="texttable">Institución que Representa</th>     
+                        <th class="texttable">Teléfono 1</th>                                                 
+                        <th class="texttable">Teléfono 2</th>   
+                      </tr>                                                                
+                   </thead>                              
+                                     
+                    <tbody>                         
+                       <tr >
+                          <td class="textCell" ng-show="false">1</td>
+                          <td class="textCell">Angel Joel Plaza Bustamante</td>                                    
+                          <td class="textCell">Jefe Supremo</td> 
+                          <td class="textCell">plazat101@gmail.com</td> 
+                          <td class="textCell">fuerzas especiales ginyu</td>                     
+                          <td class="textCell">951412302</td>   
+                          <td class="textCell">951412302</td>                   
+                       </tr>                               
+                    </tbody>
+                </table>
+             </div>       
+           </div>  
+          
+           <div class="col-md-12" style="padding-bottom: 19px;">
+             <div class="col-md-12">
+                <i class="fa fa-hand-o-right"></i> Se encontraron: <strong>{{contadorParticipante}}</strong> Participantes              
+             </div>         
+           </div>
+           <br>                   
+       </div>         
+  
+    </div>
+
+
+
+  </div>
+</div>
+
+<!-- Modal Eliminar Seleccionar Evento-->
+<div class="modal fade" id="myModalEvento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header modalCabecera">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><strong>Seleccione un Evento</strong></h4>
+        </div>
+        <div class="modal-body"> 
+            <form action="" role="form" name="forma1"> 
+              <div class="marcoEli">
+                <div class="form-group" ng-class="{'has-error': forma1.eventoSelectU.$invalid, 'has-success': forma1.eventoSelectU.$valid}">
+                  <label>Evento</label>
+                     <select class="form-control" ng-model="eventoSelect" name="eventoSelectU" required>
+                     <option value="">Seleccione una Opción...</option>
+                     <option value="En Proceso">En Proceso</option>
+                     <option value="Ejecutado">Ejecutado</option>
+                     <option value="Cancelado">Cancelado</option>
+                  </select>
+                </div>                    
+              </div>
+
+              <div class="marcoModalDatos">
+                <div class="form-group" ng-class="{'has-error': forma1.fechaEventoSelectU.$invalid, 'has-success': forma1.fechaEventoSelectU.$valid}">
+                  <label>Fecha del Evento</label>
+                  <input type="text" class="form-control" name="fechaEventoSelectU" ng-model="fechaEventoSelect" placeholder="..." required disabled>
+                </div>  
+                <div class="form-group" ng-class="{'has-error': forma1.institucionOrgaSelectU.$invalid, 'has-success': forma1.institucionOrgaSelectU.$valid}">
+                  <label>Institución Organizadora</label>
+                  <input type="text" class="form-control" name="institucionOrgaSelectU" ng-model="institucionOrgaSelect" placeholder="..." required disabled>
+                </div>                    
+              </div> 
+            </form>            
+        </div>
+        <div class="modal-footer modalPie">
+          <button type="button" class="btn opBtn" ng-click=""><i class="fa fa-trash"></i> Registrar</button>
+          <button type="button" class="btn opBtn" data-dismiss="modal" ng-click="listarEvaluadores(); "><i class="fa fa-reply"></i> Regresar</button>
+        </div>
+      </div>
+    </div> 
+</div>
+
+<!-- Modal Eliminar evento-->
+<div class="modal fade" id="myModalEliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header modalCabecera">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><strong>Borrar Evento Seleccionado</strong></h4>
+        </div>
+        <div class="modal-body">
+            <div class="marcoEli">
+                <p class="textPregunta"><strong>¿Esta seguro de Borrar el evento Seleccionado?</strong></p>
+                <p><strong>ID: </strong>{{datos.cpId}} --- <strong>Evento: </strong>{{datos.cpEva}}</p>  
+            </div>
+        </div>
+        <div class="modal-footer modalPie">
+          <button type="button" class="btn opBtn"  ng-click="eliminarEvaluador(datos.cpId); listarEvaluadores();"><i class="fa fa-trash"></i> Eliminar</button>
+          <button type="button" class="btn opBtn" data-dismiss="modal" ng-click="listarEvaluadores(); "><i class="fa fa-reply"></i> Regresar</button>
+        </div>
+      </div>
+    </div> 
+</div>

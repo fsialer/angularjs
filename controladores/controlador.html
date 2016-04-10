@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="esp" ng-app="MyApp">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Controladores</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script type="text/javascript" src="controladores.js"></script>
+</head>
+<body>
+<h2>Lista de tareas</h2>
+<!-- se llama al controlador 'ControladorTareas' para cargar el $scope y obtener sus valores-->
+<div ng-controller='ControladorTareas'>
+<span>{{restantes()}} de {{tareas.length}}</span>
+	<a class="text-danger" href="" ng-click="eliminar()">[Eliminar]</a>
+	<ul class="unstyled">
+		<li ng-repeat="tarea in tareas">
+		<!-- el ng-model es el se encarga de pedir o almacenar los valores 	del scope-->
+
+		<input type="checkbox" ng-model="tarea.hecho"></input>	
+			<span class="hecho-{{tarea.hecho}}">{{tarea.texto}}</span>
+		</li>
+	</ul>
+	<form ng-submit="agregarTareas()">
+		<input type="texto" size="30" placeholder="Agregar una nueva tarea" ng-model="nuevaTarea"/>
+		<button class="btn btn-primary" type="submit">Agregar</button>
+	</form>
+	
+</div>
+</body>
+</html>

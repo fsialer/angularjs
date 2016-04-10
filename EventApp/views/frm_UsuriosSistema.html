@@ -1,0 +1,178 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-12 cebeceraBlok">.: ADMINISTRAR USUARIOS DEL SISTEMA :.</div>
+        <div class="col-md-12 cuerpo">
+            <div class="col-md-12">
+                <br>
+                <div class="tituloTex">
+                    <strong>{{titulo}}</strong>
+                </div>
+
+                <div ng-show="mostrarTablaOpciones">
+                    <div class="marcoOpciones">
+                        <div class="col-md-6">              
+                          <div class="input-group">
+                            <span class="input-group-addon styleText">Buscar:</span>
+                            <input type="text" class="form-control styleText" ng-model="busca.tbUserS_nombreApe" placeholder="Escribe el nombre del usuario">
+                           </div>                    
+                        </div>
+                        <div class="col-md-6 operaciones">
+                           <button class="btn btn-primary opBtn" title="Nuevo" ng-click="mostrarRegistro(true); ocultarAlertaUsuario(); limpiarFormularioUsuario();"><i class="fa fa-plus"></i> Nuevo</button>
+
+                           <button class="btn btn-primary opBtn" title="Actualizado" ng-click="ListarTodoPersonalUsuario();"><i class="fa fa-refresh"></i> Refrescar</button>
+
+                           <button class="btn btn-primary opBtn" title="Atras" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"><i class="fa fa-arrow-left"></i> Atras</button>
+
+                           <button class="btn btn-primary opBtn" title="Siguiente" ng-disabled="currentPage >= usuarios.length/pageSize - 1" ng-click="currentPage=currentPage+1"><i class="fa fa-arrow-right"></i> Siguiente</button>
+
+                           <div class="btn">{{currentPage+1}}/{{numberOfPages()}}</div>
+                        </div>                 
+                    </div>
+                    <br>
+                    <div class="">
+                        <div class="table-responsive no-padding">
+                            <table class="table table-bordered table-hover">
+                                <thead> 
+                                   <tr>
+                                     <th class="texttable" ng-show="false">#</th> 
+                                     <th class="texttable">Fecha</th> 
+                                     <th class="texttable">Usuario</th>
+                                     <th class="texttable" ng-show="false">DNI</th>
+                                     <th class="texttable" ng-show="false">Teléfono</th>
+                                     <th class="texttable">Tipo</th>
+                                     <th class="texttable">Estado</th>
+                                     <th class="texttable">Modificar</th>
+                                     <th class="texttable">Eliminar</th>
+                                   </tr>                                                                
+                                </thead>                     
+                                <tbody>
+                                    <tr ng-repeat = "user in usuarios  | startFrom:currentPage*pageSize | limitTo:pageSize |  filter: busca ">
+                                      <td class="textCell" ng-show="false">{{user.tbUserS_id}}</td>
+                                      <td class="textCell">{{user.tbUserS_fecha}}</td>
+                                      <td class="textCell">{{user.tbUserS_nombreApe}}</td>
+                                      <td class="textCell">{{user.tbUserS_tipo}}</td>
+                                      <td class="textCell">{{user.tbUserS_estado}}</td>
+
+                                      <td class="textCellotro">
+                                        <button class="btn btn-info" ng-click="mostrarFrmModificar(true); enviarDatoParaEditarU(user.tbUserS_id);"><i class="fa fa-pencil-square-o"></i></button>
+                                      </td>
+
+                                      <td class="textCellotro">
+                                        <button class="btn btn-danger" data-toggle="modal" data-target="#myModalEliminar" ng-click="selecModuloAsig(user.tbUserS_id,user.tbUserS_nombreApe)"><i class="fa fa-trash"></i></button>
+                                      </td>                          
+                                    </tr>                                                                  
+                                </tbody>                    
+                            </table>                        
+                        </div>
+                    </div> 
+                    <div class="col-md-12" style="padding-bottom: 19px;">
+                        <i class="fa fa-hand-o-right"></i> Se encontraron: <strong>{{contadorUsuarios}}</strong> Evaluadores              
+                    </div>                                      
+                </div>
+                <div ng-show="mostrarsFormulario">
+                    
+                    <div class="col-md-12 formulariotext">
+                        <form action="" role="form" name="forma">
+                        <input type="hidden" class="form-control" ng-model="idPersUser">
+                            <div class="col-md-6">
+
+                                <div ng-show="frmParaModificar">
+                                  <div class="form-group" ng-class="{'has-error': forma.usuarioU.$invalid, 'has-success': forma.usuarioU.$valid}">
+                                      <label>Usuario del Sistema</label>
+                                       <input type="text" pattern="[a-z A-Z]*" class="form-control" name="usuarioU" ng-model="usuarioPER" placeholder="Ingrese sus nombres y apellidos..." required>
+                                  </div>                                   
+                                </div>
+
+                                <div ng-show="frmParaRegistrar">
+                                  <div class="form-group" ng-class="{'has-error': forma.nombreUSERU.$invalid, 'has-success': forma.nombreUSERU.$valid}">
+                                      <label>Nombres</label>
+                                       <input type="text" pattern="[a-z A-Z]*" class="form-control" name="nombreUSERU" ng-model="nombreUSER" placeholder="Ingrese sus nombres..." required>
+                                  </div> 
+                                  <div class="form-group" ng-class="{'has-error': forma.apeUSERUU.$invalid, 'has-success': forma.apeUSERUU.$valid}">
+                                      <label for="disabledTextInput">Apellidos</label>
+                                       <input type="text" pattern="[a-z A-Z]*" name="apeUSERUU" class="form-control" placeholder="Ingrese sus apellidos" ng-model="apeUSERU" required>
+                                  </div>                                  
+                                </div>
+                                                                
+                                <div class="form-group" ng-class="{'has-error': forma.dniUSERU.$invalid, 'has-success': forma.dniUSERU.$valid}">
+                                    <label>DNI</label>
+                                    <input type="text" maxlength="8" pattern="[0-9]*" class="form-control" name="dniUSERU" placeholder="Ingrese su DNI..." ng-model="dniUSER" required>
+                                </div>                                
+                                <div class="form-group" ng-class="{'has-error': forma.estadoUSERU.$invalid, 'has-success': forma.estadoUSERU.$valid}">
+                                  <label>Estado de Usuario</label>
+                                  <select class="form-control" ng-model="estadoUSER" name="estadoUSERU" required>
+                                    <option value="">Seleccione una Opción</option>
+                                    <option value="Activo">Activo</option>
+                                    <option value="No Activo">No Activo</option>
+                                  </select>
+                                </div>                                                               
+                            </div>                        
+                            <div class="col-md-6">
+                                <div class="form-group" ng-class="{'has-error': forma.telfUSERU.$invalid, 'has-success': forma.telfUSERU.$valid}">
+                                    <label for="disabledTextInput">Teléfono</label>
+                                     <input type="text" maxlength="9" pattern="[0-9]*" name="telfUSERU" class="form-control" placeholder="Ingrese su teléfono" ng-model="telfUSER" required>
+                                </div>
+                                <div class="form-group" ng-class="{'has-error': forma.tipoUSERU.$invalid, 'has-success': forma.tipoUSERU.$valid}">
+                                  <label>Tipo de Usuario</label>
+                                  <select class="form-control" ng-model="tipoUSER" name="tipoUSERU" required>
+                                    <option value="">Seleccione una Opción</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Operador">Operador</option>
+                                  </select>
+                                </div>  
+                                <div class="form-group" ng-class="{'has-error': forma.USERdatoU.$invalid, 'has-success': forma.USERdatoU.$valid}">
+                                    <label>Usuario</label>
+                                    <input type="text" maxlength="10"  class="form-control" name="USERdatoU" placeholder="Ingrese su usuario..." ng-model="USERdato" required>
+                                </div>       
+                                <div class="form-group" ng-class="{'has-error': forma.PASSwordDatoU.$invalid, 'has-success': forma.PASSwordDatoU.$valid}">
+                                    <label>Contraseña</label>
+                                    <input type="password" maxlength="10" class="form-control" name="PASSwordDatoU" placeholder="Ingrese su password..." ng-model="PASSwordDato" required>
+                                </div>                                                                                         
+                                                               
+                            </div>                            
+                        </form>
+                    </div>
+                    <div class="btnAccion ">                        
+                        <button class="btn btn-primary opBtn" title="Regresar al Listado de usuarios" ng-click="mostrarRegistro(false); ListarTodoPersonalUsuario(); ocultarAlertaUsuario(); limpiarFormularioUsuario();"><i class="fa fa-arrow-left"></i> Atras</button>
+                        
+                        <button ng-show="btnRegistrar" class="btn btn-primary opBtn" title="Registrar los datos ingresados" ng-click ="registrarUsuario(); ListarTodoPersonalUsuario(); "><i class="fa fa-check"></i> Registrar</button>
+
+                        <button ng-show="btnEditar" class="btn btn-primary opBtn" title="Registrar los datos ingresados" ng-click ="EditarUsuario(); ListarTodoPersonalUsuario();"><i class="fa fa-pencil-square-o"></i> Editar</button>
+                    </div>
+                    <div class="form-group">
+                           <div id="cpalertaRegistroUsuario" class="ocultarAlerta" role="alert"></div>    
+                    </div>                     
+                    <br>
+
+                </div>
+
+
+
+
+            </div>        
+        </div>   
+    </div>
+</div>
+
+
+<!-- Modal Eliminar presentacion-->
+<div class="modal fade" id="myModalEliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header modalCabecera">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><strong>Eliminar Evaluador</strong></h4>
+        </div>
+        <div class="modal-body">
+            <div class="marcoEli">
+                <p class="textPregunta"><strong>¿Esta seguro de eliminar el evaluador Seleccionado?</strong></p>
+                <p><strong>ID: </strong>{{datosU.cpId}} --- <strong>Evaluador: </strong>{{datosU.cpUser}}</p>  
+            </div>
+        </div>
+        <div class="modal-footer modalPie">
+          <button type="button" class="btn opBtn"  ng-click="eliminarUsuario(datosU.cpId); ListarTodoPersonalUsuario();"><i class="fa fa-trash"></i> Eliminar</button>
+          <button type="button" class="btn opBtn" data-dismiss="modal" ng-click="ListarTodoPersonalUsuario(); "><i class="fa fa-reply"></i> Regresar</button>
+        </div>
+      </div>
+    </div> 
+</div>

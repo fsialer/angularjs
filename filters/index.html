@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app="mainModule">
+<head>
+	<title>Filtros</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+	<script type="text/javascript" src="angular-local-storage.min.js"></script>
+	<script type="text/javascript" src="controller.js"></script>
+</head>
+<body ng-controller="filtersController">
+
+{{mi_html | removeHTML}}<br>
+{{mi_html2 | json}}
+<p>{{costo | currency:'S/.'}}</p>
+</body>
+</html>

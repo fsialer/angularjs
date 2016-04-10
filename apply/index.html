@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="mainModule">
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+	<script type="text/javascript">
+		angular.module("mainModule",[])
+		.controller("firsController",function($scope){
+			$scope.nombre="fernando";
+			/*setTimeout(function(){
+				$scope.$apply(function(){
+					$scope.nombre="Jose";
+				});				
+				//digest controla los cambios en el DOM, verificando los watchers
+				//apply, se encarga en ver los eventos del angular
+				//watcher, evalua si hubo una modificacion
+				
+			},2000);*/
+			document.querySelector("#mi_btn").addEventListener("click",function(){
+				$scope.$apply(function(){
+					$scope.nombre="Jose";
+				})
+				
+			});
+
+
+		});
+
+
+
+	</script>
+</head>
+<body ng-controller="firsController">
+<h1>{{nombre}}</h1>
+<button id="mi_btn">Haz clic</button>
+
+</body>
+</html>

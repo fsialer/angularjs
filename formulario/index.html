@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="esp" ng-app>
+<head>
+	<title>Formulario</title>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+<div class="container">
+	<h1>Formulario de AngularJS</h1>
+  	<hr>
+  	<form role="form" name="forma">
+    <div class="form-group" ng-class="{'has-error':forma.nombreU.$invalid}">
+      <label for="inputNombre">Nombre</label>
+      <input id="inputNombre" type="text" class="form-control" placeholder="Nombre" name="nombreU" ng-model="usuario.nombre" required>
+    </div>
+    <div class="form-group" ng-class="{'has-error':forma.nombreU.$invalid}" >
+      <label for="inputEmail">Email</label>
+      <input id="inputEmail" type="email" class="form-control" placeholder="email" name="emailU"  ng-model="usuario.email" required>
+      <div ng-show="forma.emailU.$dirty && forma.emailU.$invalid" >
+        <p class="help-block text-danger" ng-show="forma.emailU.$error.required">Campo obligatorio</p>
+        <p class="help-block text-danger" ng-show="forma.emailU.$error.email">Email invalido</p>
+      </div>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="aceptoU"  ng-model="usuario.acepto"> Acepto.
+      </label>
+    </div>
+    <button class="btn btn-success" ng-disabled="forma.$invalid">Registrar</button>
+  </form>
+</div>
+
+</body>
+</html>

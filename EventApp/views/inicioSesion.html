@@ -1,0 +1,28 @@
+<br>
+<div class="frmLogin">
+	<div class="cebeceraBlok">
+		.: Bienvenido :.
+	</div>
+	<div class="cuerpoBlok">
+        <form action="">
+            <div class="form-group gptex">
+                <label>Usuario</label>
+                 <input type="text" id="disabledTextInput" class="form-control" placeholder="Ingrese su Usuario" ng-model="userInfo">
+            </div>
+            <div class="form-group gptex">
+                <label >Contraseña</label>
+                <input type="password" id="disabledTextInput" class="form-control" placeholder="Ingrese su Contraseña"ng-model="passwordInfo">
+            </div>
+        </form>	
+	    <div class="footerBoton ">
+			<button id="btnSE" class="btn btnIngresar" ng-click="evaluarUserPass();"><i class="fa fa-check"></i> Ingresar</button>
+            <button id="btnSE" class="btn btnLimpiar" ng-click="ocultarAlertaVeri(); limpiar();"><i class="fa fa-eraser"></i> Limpiar</button>
+        </div>
+	</div>     
+</div>
+<br>
+<div class="form-group">
+    <div id="cpalertaVerificacion" class="ocultarAlerta" role="alert"></div>    
+</div>
+
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="CustomDirective">
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/autocomplete-jquery-ui.structure.css">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="js/autocomplete-jquery-ui.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<style type="text/css">
+	.circular{
+		border-radius: 50%;
+		width: 100px;
+		height: 100px;
+		display: inline-block;
+	}
+	.no-list li{
+		list-style-type: none;
+	}
+	body,html{
+		text-align: center;
+		background-color: #eee;
+		margin:0px;
+	}
+		</style>
+	
+</head>
+<body ng-controller="AppCtrl">
+	<input type="text" my-autocomplete="repos" placeholder="Buscar repositorio"/>
+	<ul class="no-list" >	
+		<li ng-repeat="repo in posts" ng-hide="main_repo && main_repo != repo.name">
+		<!--<img ng-src="{{repo.owner.avatar_url}}">-->
+		<div class="circular" back-img="{{repo.owner.avatar_url}}"></div>
+			<h1>{{repo.full_name}}</h1>
+		</li>
+	</ul>
+	
+</body>
+</html>

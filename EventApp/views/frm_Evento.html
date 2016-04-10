@@ -1,0 +1,439 @@
+
+<div class="col-md-12 resetCol">
+  <div class="viewPnl">
+    <div class="textCabeceraPNL">
+       <strong>ADMINISTRACIÓN DE EVENTOS</strong>
+    </div>
+    <div class="lineaC"></div> 
+
+    <div ng-show="pnlTabla">
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="input-group">
+                    <div class="input-group-btn">
+                        <select class="form-control" ng-model="buscarPor"  style="width: 120px;">                       
+                           <option value="">Buscar por:</option>
+                           <option value="Nombre">Nombre</option>
+                           <option value="Fecha">Fecha</option>
+                           <option value="Lugar">Lugar</option>
+                           <option value="Estado">Estado</option>
+                           <option value="Todos">Todos</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" ng-model="campoText" aria-label="...">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                   <ul class="MenuOpciones">
+                      <li ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"><a href="" title="Retroceder el listado de eventos"><i class="fa fa-arrow-left"></i></a></li>
+
+                      <li><a href="" title="Registra un Nuevo evento" ng-click="llamarformulario(true);"><i class="fa fa-plus"></i></a></li>
+
+                      <li><a href="" title="Refrescar el listado de eventos"><i class="fa fa-refresh"></i></a></li>
+
+                      <li ng-click="visible=!visible" ><a href="" title="Muesta las Opciones de Editar y Eliminar"><i class="fa fa-bars"></i></a></li>
+
+                      <li  ng-disabled="currentPage >= eventos.length/pageSize - 1" ng-click="currentPage=currentPage+1" ><a href="" title="Siguiente listado de eventos"><i class="fa fa-arrow-right"></i></a></li>
+                    </ul>
+                </div>          
+            </div>
+        </div>
+
+        <br>
+        <div class="styleTabla" >
+           <div class="table-responsive no-padding">
+              <table class="table table-bordered table-hover">                               
+                 <thead> 
+                    <tr>     
+                      <th class="texttable" ng-show="false">#</th>                                                                   
+                      <th class="texttable">Nombre del Evento</th>
+                      <th class="texttable">Fecha del Evento</th>
+                      <th class="texttable">Hora del Evento</th>     
+                      <th class="texttable">Lugar</th>     
+                      <th class="texttable">Estado</th>     
+                      <th class="texttable">Ponentes</th>
+                      <th class="texttable">Organizadores</th>
+                      <th class="texttable difuminar" ng-if="visible">Modifciar</th>
+                      <th class="texttable difuminar" ng-if="visible">Elimnar</th> 
+                    </tr>                                                                
+                 </thead>                              
+                                   
+                  <tbody>                         
+                     <tr ng-repeat = "evento in eventos | startFrom:currentPage*pageSize | limitTo:pageSize |  filter: comparacion" >
+                        <td class="textCell" ng-show="false">{{evento.tbEvent_id}}</td>
+                        <td class="textCell">{{evento.tbEvent_nombreEvento}}</td>                                    
+                        <td class="textCell">{{evento.tbEvent_fecha}}</td> 
+                        <td class="textCell">{{evento.tbEvent_hora}}</td> 
+                        <td class="textCell">{{evento.tbEvent_lugar}}</td>                     
+                        <td class="textCell">{{evento.tbEvent_Estado}}</td>  
+
+                        <td class="textCellotro">
+                           <button class="btn btn-success" ng-click="llamarTablaPonentes(true);"><i class="fa fa-pencil-square-o"></i></button>
+                        </td>  
+
+                        <td class="textCellotro">
+                           <button class="btn btn-info" ng-click="llamarTablaOrganisadores(true);"><i class="fa fa-pencil-square-o"></i></button>
+                        </td> 
+                  
+                        <td class="textCellotro difuminar" ng-if="visible">
+                             <button class="btn btn-info" ng-click="mostrarFrmEditar(true);"><i class="fa fa-pencil-square-o"></i></button>
+                        </td>  
+
+                        <td class="textCellotro difuminar" ng-if="visible">
+                             <button class="btn btn-danger" data-toggle="modal" data-target="#myModalEliminarEvento"  ng-click=""><i class="fa fa-pencil-square-o"></i></button>
+                        </td>
+
+                     </tr>                               
+                  </tbody>
+              </table>
+           </div>       
+        </div>  
+        
+        <div class="col-md-12" style="padding-bottom: 19px;">
+          <div class="col-md-6">
+               <i class="fa fa-hand-o-right"></i> Se encontraron: <strong>{{contadorEventos}}</strong> Eventos              
+          </div>
+          <div class="col-md-6 text_Der">
+              Pagina {{currentPage+1}}/{{numberOfPages()}}
+          </div>          
+        </div>
+        <br>      
+    </div>
+
+    <div ng-show="pnlFormulario">
+      <br>    
+      <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 cabeceraFormulario">
+              <strong>:: {{tituloFormulario}} ::</strong>
+            </div>
+
+            <br>
+            <form action="" role="form" name="forma">                
+                <div class="col-md-6">
+                   <input type="hidden" class="form-control" ng-model="idEvento">
+                   <div class="form-group" ng-class="{'has-error': forma.fechaU.$invalid, 'has-success': forma.fechaU.$valid}">
+                      <label>Fecha del Evento</label>
+                      <input type="date" class="form-control" name="fechaU" ng-model="fechaEvento" placeholder="Ingrese el nombre del evento..." required>
+                   </div>                
+                   <div class="form-group" ng-class="{'has-error': forma.nomEventoU.$invalid, 'has-success': forma.nomEventoU.$valid}">
+                      <label>Nombre del Evento</label>
+                      <input type="text" class="form-control" name="nomEventoU" ng-model="nomEvento" placeholder="Ingrese el nombre del evento..." required>
+                   </div>
+                   <div class="form-group" ng-class="{'has-error': forma.estadoEventoU.$invalid, 'has-success': forma.estadoEventoU.$valid}">
+                      <label>Estado del Evento</label>
+                        <select class="form-control" ng-model="estadoEvento" name="estadoEventoU" required>
+                        <option value="">Seleccione una Opción...</option>
+                        <option value="En Proceso">En Proceso</option>
+                        <option value="Ejecutado">Ejecutado</option>
+                        <option value="Cancelado">Cancelado</option>
+                      </select>
+                   </div>                   
+                </div>
+                <div class="col-md-6">
+                   <div class="form-group" ng-class="{'has-error': forma.horaEventoU.$invalid, 'has-success': forma.horaEventoU.$valid}">
+                      <label>Hora</label>
+                      <input type="time" class="form-control" name="horaEventoU" ng-model="horaEvento" placeholder="Ingrese el nombre del evento..." required>
+                   </div>
+                   <div class="form-group" ng-class="{'has-error': forma.LugarEventoU.$invalid, 'has-success': forma.LugarEventoU.$valid}">
+                      <label>Lugar</label>
+                      <input type="time" class="form-control" name="LugarEventoU" ng-model="LugarEvento" placeholder="Ingrese el nombre del evento..." required>
+                   </div> 
+                   <div class="form-group" ng-class="{'has-error': forma.descripcionU.$invalid, 'has-success': forma.descripcionU.$valid}">
+                      <label>Descripción del Evento</label>
+                      <textarea class="form-control" maxlength="800" cols="30" rows="5" name="descripcionU" ng-model="descripcion" placeholder="Ingrese alguna descripción para este evento..." required></textarea>
+                   </div>                                      
+                </div>                          
+            </form>
+            <br>
+            <div class="btnAccion ">                        
+                <button class="btn btn-primary opBtn" title="Regresar al Listado de Evaluadores" ng-click="llamarformulario(false);"><i class="fa fa-arrow-left"></i> Atras</button>
+                        
+                <button ng-show="btnRegistrar" class="btn btn-primary opBtn" title="Registrar los datos ingresados" ng-click ="registrarEvento();"><i class="fa fa-check"></i> Registrar</button>
+
+                <button ng-show="btnEditar" class="btn btn-primary opBtn" title="Registrar los datos ingresados" ng-click ="editarEvento();"><i class="fa fa-pencil-square-o"></i> Editar</button>
+            </div>
+        </div>
+      </div>
+    </div>  
+
+    <div ng-show="pnltablaPonentes">
+       <br>
+       <div class="row">
+         <div class="col-md-12 textCenter">
+           <strong>Lista de Ponentes - {{tituloPonentes}}</strong>
+         </div>
+       </div>
+       <br>
+       <div class="row">
+         <div class="col-md-12">
+            <ul class="MenuOpciones">
+                <li><a href="" title="Retroceder el listado" ng-click="llamarTablaPonentes(false);"><i class="fa fa-arrow-left"></i></a></li>
+                <li><a href="" title="Registra un Nuevo evento" ng-click="llamarFormularioPonentes(true);"><i class="fa fa-plus"></i></a></li>
+                <li><a href="" title="Refrescar el listado de eventos"><i class="fa fa-refresh"></i></a></li>
+                <li ng-click="visible=!visible" ><a href="" title="Muesta las Opciones de Editar y Eliminar"><i class="fa fa-bars"></i></a></li>
+                <!-- <li><a href="" title="Siguiente listado de eventos"><i class="fa fa-arrow-right"></i></a></li> -->
+            </ul>           
+         </div>         
+       </div>   
+       <div class="row">
+          <br>
+          <div class="col-md-12">
+            <div class="styleTabla" >
+              <div class="table-responsive no-padding">
+                <table class="table table-bordered table-hover">
+                   <thead> 
+                      <tr>     
+                        <th class="texttable" ng-show="false">#</th>                                                                   
+                        <th class="texttable">Nombre del Ponente</th>
+                        <th class="texttable">Institución que Representa</th>
+                        <th class="texttable">Cargo</th>     
+                        <th class="texttable">Tema de Exposición</th>     
+                        <th class="texttable">Comentario</th>     
+                        <th class="texttable difuminar" ng-if="visible">Modifciar</th>
+                        <th class="texttable difuminar" ng-if="visible">Elimnar</th> 
+                      </tr>                                                                
+                   </thead>
+                    <tbody>                         
+                       <tr >
+                          <td class="textCell" ng-show="false">1 {{modulo.tbMod_ID}}</td>
+                          <td class="textCell">Jorge Estela Zumaeta {{modulo.tbMod_Nombre}}</td>                                    
+                          <td class="textCell">Fuerzas Armadas del Peru {{modulo.tbMod_TipoModulo}}</td> 
+                          <td class="textCell">Gerente General {{modulo.tbMod_TipoModulo}}</td> 
+                          <td class="textCell">El Sistema de defensa {{modulo.tbMod_TipoModulo}}</td>                     
+                          <td class="textCell">......... {{modulo.tbMod_TipoModulo}}</td>                            
+                    
+                          <td class="textCellotro difuminar" ng-if="visible">
+                               <button class="btn btn-info" ng-click="mostrarFrmEditarPonente(true);"><i class="fa fa-pencil-square-o"></i></button>
+                          </td>  
+
+                          <td class="textCellotro difuminar" ng-if="visible">
+                               <button class="btn btn-danger" data-toggle="modal" data-target="#myModalEliminarPonente" ng-click=""><i class="fa fa-pencil-square-o"></i></button>
+                          </td>
+                       </tr>                               
+                    </tbody>                                      
+                </table>
+              </div>
+            </div>
+          </div>          
+       </div>   
+   </div>
+
+    <div ng-show="pnlFormularioPonentes">
+      <br>    
+      <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 cabeceraFormulario">
+              <strong>:: {{tituloFormularioPonentes}} ::</strong>
+            </div>
+
+            <br>
+            <form action="" role="form" name="forma2">                
+                <div class="col-md-6">
+                   <input type="hidden" class="form-control" ng-model="idPonente">
+                   <div class="form-group" ng-class="{'has-error': forma2.nombrePonenteU.$invalid, 'has-success': forma2.nombrePonenteU.$valid}">
+                      <label>Nombre Ponente</label>
+                      <input type="text" class="form-control" name="nombrePonenteU" ng-model="nombrePonente" placeholder="Ingrese el nombre del evento..." required>
+                   </div>                
+                   <div class="form-group" ng-class="{'has-error': forma2.institucionRePoU.$invalid, 'has-success': forma2.institucionRePoU.$valid}">
+                      <label>Institución que Representa</label>
+                      <input type="text" class="form-control" name="institucionRePoU" ng-model="institucionRePo" placeholder="Ingrese el nombre del evento..." required>
+                   </div>
+                   <div class="form-group" ng-class="{'has-error': forma2.cargoPoU.$invalid, 'has-success': forma2.cargoPoU.$valid}">
+                      <label>Cargo</label>
+                      <input type="text" class="form-control" name="cargoPoU" ng-model="cargoPo" placeholder="Ingrese el nombre del evento..." required>
+                   </div>                   
+                </div>
+                <div class="col-md-6">
+                   <div class="form-group" ng-class="{'has-error': forma2.temaPoU.$invalid, 'has-success': forma2.temaPoU.$valid}">
+                      <label>Tema de Exposición</label>
+                      <input type="text" class="form-control" name="temaPoU" ng-model="temaPo" placeholder="Ingrese el nombre del evento..." required>
+                   </div>
+                   <div class="form-group" ng-class="{'has-error': forma2.ComentaPoU.$invalid, 'has-success': forma2.ComentaPoU.$valid}">
+                      <label>Comentario</label>
+                      <textarea class="form-control" maxlength="800" cols="30" rows="5" name="ComentaPoU" ng-model="ComentaPo" placeholder="Ingrese alguna descripción para este evento..." required></textarea>
+                   </div>                                       
+                </div>                          
+            </form>
+            <br>
+            <div class="btnAccion ">                        
+                <button class="btn btn-primary opBtn" title="Regresar al Listado de Evaluadores" ng-click="llamarFormularioPonentes(false);"><i class="fa fa-arrow-left"></i> Atras</button>
+                        
+                <button ng-show="btnRegistrarPonente" class="btn btn-primary opBtn" title="Registrar los datos ingresados" ng-click ="registrarPonentes();"><i class="fa fa-check"></i> Registrar</button>
+
+                <button ng-show="btnEditarPonente" class="btn btn-primary opBtn" title="Registrar los datos ingresados" ng-click ="editarPonentes();"><i class="fa fa-pencil-square-o"></i> Editar</button>
+            </div>
+        </div>
+      </div>
+    </div>  
+
+    <div ng-show="pnltablaOrganisadores">
+       <br>
+       <div class="row">
+         <div class="col-md-12 textCenter">
+           <strong>Lista de Organizadores - {{tituloOganizadores}}</strong>
+         </div>
+       </div>
+       <br>
+       <div class="row">
+         <div class="col-md-12">
+            <ul class="MenuOpciones">
+                <li><a href="" title="Retroceder el listado" ng-click="llamarTablaOrganisadores(false);"><i class="fa fa-arrow-left"></i></a></li>
+                <li><a href="" title="Registra un Nuevo evento" ng-click="llamarFormularioOrganisadores(true);"><i class="fa fa-plus"></i></a></li>
+                <li><a href="" title="Refrescar el listado de eventos"><i class="fa fa-refresh"></i></a></li>
+                <li ng-click="visible=!visible" ><a href="" title="Muesta las Opciones de Editar y Eliminar"><i class="fa fa-bars"></i></a></li>
+            </ul>           
+         </div>         
+       </div>   
+       <div class="row">
+          <br>
+          <div class="col-md-12">
+            <div class="styleTabla" >
+              <div class="table-responsive no-padding">
+                <table class="table table-bordered table-hover">
+                   <thead> 
+                      <tr>     
+                        <th class="texttable" ng-show="false">#</th>                                                                   
+                        <th class="texttable">Institución Organizadora</th>
+                        <th class="texttable">Nombre del Organizador</th>
+                        <th class="texttable">Cargo</th>                                 
+                        <th class="texttable difuminar" ng-if="visible">Modifciar</th>
+                        <th class="texttable difuminar" ng-if="visible">Eliminar</th> 
+                      </tr>                                                                
+                   </thead>
+                    <tbody>                         
+                       <tr >
+                          <td class="textCell" ng-show="false">1 {{modulo.tbMod_ID}}</td>
+                          <td class="textCell">Dirección Ejecutiva de Comunicaciones {{modulo.tbMod_Nombre}}</td>
+                          <td class="textCell">Antonio Sanchez Chacon {{modulo.tbMod_TipoModulo}}</td> 
+                          <td class="textCell">Director Ejecutivo de Comunicaciones {{modulo.tbMod_TipoModulo}}</td> 
+
+                          <td class="textCellotro difuminar" ng-if="visible">
+                              <button class="btn btn-info" ng-click="mostrarFrmEditarOrganisador(true);"><i class="fa fa-pencil-square-o"></i></button>
+                          </td>  
+
+                          <td class="textCellotro difuminar" ng-if="visible">
+                               <button class="btn btn-danger" data-toggle="modal" data-target="#myModalEliminarOrganizador" ng-click=""><i class="fa fa-pencil-square-o"></i></button>
+                          </td>
+                       </tr>                               
+                    </tbody>                                      
+                </table>
+              </div>
+            </div>
+          </div>
+          
+       </div>   
+    </div> 
+
+    <div ng-show="pnlFormularioOrganisadores">
+      <br>    
+      <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 cabeceraFormulario">
+              <strong>:: {{tituloFormularioOrganizadores}} ::</strong>
+            </div>
+
+            <br>
+            <form action="" role="form" name="forma3">                
+                <div class="col-md-12">
+                   <input type="hidden" class="form-control" ng-model="idPonente">
+                   <div class="form-group" ng-class="{'has-error': forma3.institucionOrU.$invalid, 'has-success': forma3.institucionOrU.$valid}">
+                      <label>Institución Oranizadora</label>
+                      <input type="text" class="form-control" name="institucionOrU" ng-model="institucionOr" placeholder="Ingrese el nombre del evento..." required>
+                   </div>                
+                   <div class="form-group" ng-class="{'has-error': forma3.organizadorU.$invalid, 'has-success': forma3.organizadorU.$valid}">
+                      <label>Organizador</label>
+                      <input type="text" class="form-control" name="organizadorU" ng-model="organizador" placeholder="Ingrese el nombre del evento..." required>
+                   </div>
+                   <div class="form-group" ng-class="{'has-error': forma3.cargoOR.$invalid, 'has-success': forma3.cargoOR.$valid}">
+                      <label>Cargo</label>
+                      <input type="text" class="form-control" name="cargoOR" ng-model="cargoOR" placeholder="Ingrese el nombre del evento..." required>
+                   </div>                   
+                </div>                          
+            </form>
+            <br>
+            <div class="btnAccion ">                        
+                <button class="btn btn-primary opBtn" title="Regresar al Listado de Evaluadores" ng-click="llamarFormularioOrganisadores(false);"><i class="fa fa-arrow-left"></i> Atras</button>
+                        
+                <button ng-show="btnRegistrarOrganisador" class="btn btn-primary opBtn" title="Registrar los datos ingresados" ng-click ="registrarOrganisador();"><i class="fa fa-check"></i> Registrar</button>
+
+                <button ng-show="btnEditarOrganisador" class="btn btn-primary opBtn" title="Registrar los datos ingresados" ng-click ="editarOrganisador();"><i class="fa fa-pencil-square-o"></i> Editar</button>
+            </div>
+        </div>
+      </div>
+    </div>          
+
+  </div>
+</div>
+
+
+
+<!-- Modal Eliminar evento-->
+<div class="modal fade" id="myModalEliminarEvento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header modalCabecera">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><strong>Eliminar Evento</strong></h4>
+        </div>
+        <div class="modal-body">
+            <div class="marcoEli">
+                <p class="textPregunta"><strong>¿Esta seguro de eliminar el evento Seleccionado?</strong></p>
+                <p><strong>ID: </strong>{{datos.cpId}} --- <strong>Evento: </strong>{{datos.cpEva}}</p>  
+            </div>
+        </div>
+        <div class="modal-footer modalPie">
+          <button type="button" class="btn opBtn"  ng-click="eliminarEvento(datos.cpId); ListarCategoriastodo();"><i class="fa fa-trash"></i> Eliminar</button>
+          <button type="button" class="btn opBtn" data-dismiss="modal" ng-click="ListarCategoriastodo(); "><i class="fa fa-reply"></i> Regresar</button>
+        </div>
+      </div>
+    </div> 
+</div>
+
+
+<!-- Modal Eliminar ponente-->
+<div class="modal fade" id="myModalEliminarPonente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header modalCabecera">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><strong>Eliminar Ponente</strong></h4>
+        </div>
+        <div class="modal-body">
+            <div class="marcoEli">
+                <p class="textPregunta"><strong>¿Esta seguro de eliminar el Ponente Seleccionado?</strong></p>
+                <p><strong>ID: </strong>{{datos.cpId}} --- <strong>Ponente: </strong>{{datos.cpEva}}</p>  
+            </div>
+        </div>
+        <div class="modal-footer modalPie">
+          <button type="button" class="btn opBtn"  ng-click="eliminarPonente(datos.cpId); ListarCategoriastodo();"><i class="fa fa-trash"></i> Eliminar</button>
+          <button type="button" class="btn opBtn" data-dismiss="modal" ng-click="ListarCategoriastodo(); "><i class="fa fa-reply"></i> Regresar</button>
+        </div>
+      </div>
+    </div> 
+</div>
+
+
+<!-- Modal Eliminar organizador-->
+<div class="modal fade" id="myModalEliminarOrganizador" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header modalCabecera">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><strong>Eliminar Organizador</strong></h4>
+        </div>
+        <div class="modal-body">
+            <div class="marcoEli">
+                <p class="textPregunta"><strong>¿Esta seguro de eliminar el Organizador Seleccionado?</strong></p>
+                <p><strong>ID: </strong>{{datos.cpId}} --- <strong>Organizador: </strong>{{datos.cpEva}}</p>  
+            </div>
+        </div>
+        <div class="modal-footer modalPie">
+          <button type="button" class="btn opBtn"  ng-click="eliminarOrganizador(datos.cpId); ListarCategoriastodo();"><i class="fa fa-trash"></i> Eliminar</button>
+          <button type="button" class="btn opBtn" data-dismiss="modal" ng-click="ListarCategoriastodo(); "><i class="fa fa-reply"></i> Regresar</button>
+        </div>
+      </div>
+    </div> 
+</div>
